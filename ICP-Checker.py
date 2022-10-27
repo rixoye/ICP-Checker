@@ -13,11 +13,11 @@ os.environ['no_proxy'] = '*'
 
 
 def query_base():
-    print("版本：V2.1.5 可用测试：2022-7-11\n")
-    print("项目地址：https://github.com/wongzeon/ICP-Checker\n")
+    # print("版本：V2.1.5 可用测试：2022-7-11\n")
+    # print("项目地址：https://github.com/wongzeon/ICP-Checker\n")
     while True:
         try:
-            info = input("请完整输入公司全称 / 域名以查询备案信息：\n\n").replace(" ", "").replace("https://www.", "").replace("http://www.", "").replace("http://", "")
+            info = input("\n请完整输入公司全称 / 域名以查询备案信息：\n").replace(" ", "").replace("https://www.", "").replace("http://www.", "").replace("http://", "")
             # 过滤空值和特殊字符，只允许 - . () 分别用于域名和公司名
             if info == "":
                 raise ValueError("InputNone")
@@ -219,6 +219,10 @@ def data_saver(domain_list):
     print(f"查询结果保存在：{file_path}\n")
     return 'OK'
 
+def data_print(domain_list):
+    print(f"查询结果如下:\n\n{domain_list}\n")
+    for row in domain_list:
+        print(f"{row[1]}")
 
 def main():
     cookie = get_cookies()
@@ -242,7 +246,9 @@ def main():
                         p_uuid = check_data['key']
                         if sign != -1:
                             domain_list = get_beian_info(info, p_uuid, token, sign)
-                            data_saver(domain_list)
+                            data_print(domain_list)
+                            # 暂不需要一个保存查询的功能，所以改为一个直接打印域名的功能
+                            # data_saver(domain_list)
                         else:
                             raise ValueError("获取Sign遇到错误，请重试！")
                     else:
